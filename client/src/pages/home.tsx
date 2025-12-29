@@ -14,8 +14,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import bgImage from "@assets/generated_images/abstract_flowing_organic_shapes_with_soft_blue_gradients.png";
-
 export default function Home() {
   const [email, setEmail] = useState("");
 
@@ -57,19 +55,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative py-20 sm:py-32 overflow-hidden">
-        {/* Background Image */}
-        <div className="absolute inset-0 -z-20">
-          <img 
-            src={bgImage} 
-            alt="Background pattern" 
-            className="w-full h-full object-cover opacity-40"
-          />
-        </div>
-        
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-white/60 via-white/50 to-white/40"></div>
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/3 via-transparent to-transparent"></div>
+      <section className="relative py-20 sm:py-32 overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50">
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
@@ -122,16 +108,7 @@ export default function Home() {
       </section>
 
       {/* How It Works */}
-      <section id="how-it-works" className="relative py-20 sm:py-32 bg-card overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 -z-20">
-          <img 
-            src={bgImage} 
-            alt="Background pattern" 
-            className="w-full h-full object-cover opacity-20"
-          />
-        </div>
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-card/60 via-card/50 to-card/40"></div>
+      <section id="how-it-works" className="relative py-20 sm:py-32 bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50 overflow-hidden">
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
@@ -188,16 +165,7 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="relative py-20 sm:py-32 overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 -z-20">
-          <img 
-            src={bgImage} 
-            alt="Background pattern" 
-            className="w-full h-full object-cover opacity-25"
-          />
-        </div>
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-white/60 via-white/55 to-white/50"></div>
+      <section id="features" className="relative py-20 sm:py-32 bg-gradient-to-br from-white via-purple-50 to-blue-50 overflow-hidden">
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
@@ -275,16 +243,7 @@ export default function Home() {
       </section>
 
       {/* Testimonials */}
-      <section id="testimonials" className="relative py-20 sm:py-32 bg-card overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 -z-20">
-          <img 
-            src={bgImage} 
-            alt="Background pattern" 
-            className="w-full h-full object-cover opacity-15"
-          />
-        </div>
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-card/60 via-card/55 to-card/50"></div>
+      <section id="testimonials" className="relative py-20 sm:py-32 bg-gradient-to-br from-blue-50 via-slate-50 to-white overflow-hidden">
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
@@ -343,16 +302,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="relative py-20 sm:py-32 bg-gradient-to-br from-primary/10 to-primary/5 overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 -z-20">
-          <img 
-            src={bgImage} 
-            alt="Background pattern" 
-            className="w-full h-full object-cover opacity-30"
-          />
-        </div>
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/10 via-primary/8 to-primary/5"></div>
+      <section className="relative py-20 sm:py-32 bg-gradient-to-br from-blue-100 via-primary/15 to-purple-100 overflow-hidden">
         
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <motion.div
