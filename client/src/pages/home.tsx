@@ -68,7 +68,7 @@ export default function Home() {
         </div>
         
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-white/95 via-white/90 to-white/85"></div>
+        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-white/60 via-white/50 to-white/40"></div>
         <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/3 via-transparent to-transparent"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -131,7 +131,7 @@ export default function Home() {
             className="w-full h-full object-cover opacity-20"
           />
         </div>
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-card/95 via-card/90 to-card/85"></div>
+        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-card/60 via-card/50 to-card/40"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
@@ -197,7 +197,7 @@ export default function Home() {
             className="w-full h-full object-cover opacity-25"
           />
         </div>
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-white/95 via-white/92 to-white/90"></div>
+        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-white/60 via-white/55 to-white/50"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
@@ -284,7 +284,7 @@ export default function Home() {
             className="w-full h-full object-cover opacity-15"
           />
         </div>
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-card/95 via-card/93 to-card/92"></div>
+        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-card/60 via-card/55 to-card/50"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
