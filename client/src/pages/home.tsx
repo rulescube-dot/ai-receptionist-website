@@ -14,6 +14,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import chatImg from "@assets/generated_images/modern_chat_interface_mockup_with_blue_theme.png";
+import callImg from "@assets/generated_images/professional_phone_call_interface_mockup.png";
+import calendarImg from "@assets/generated_images/calendar_scheduling_interface_mockup.png";
+import whatsappImg from "@assets/generated_images/whatsapp_conversation_mockup_on_phone.png";
+
 export default function Home() {
   const [email, setEmail] = useState("");
 
@@ -72,7 +77,7 @@ export default function Home() {
               Automate appointment bookings and live conversations across chat, WhatsApp, and voice — so you never miss a lead, even after hours.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
               <Button size="lg" className="h-12 px-8 bg-primary hover:bg-primary/90 text-white font-semibold">
                 Get Started
               </Button>
@@ -81,28 +86,41 @@ export default function Home() {
               </Button>
             </div>
 
-            {/* Visual Placeholder */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="rounded-2xl border border-border bg-gradient-to-br from-primary/10 to-primary/5 p-8 shadow-lg"
-            >
-              <div className="grid grid-cols-3 gap-4 text-center">
-                <div className="p-4 rounded-lg bg-white border border-border">
-                  <MessageCircle className="w-8 h-8 text-primary mx-auto mb-2" />
-                  <p className="text-sm font-semibold">Chat</p>
-                </div>
-                <div className="p-4 rounded-lg bg-white border border-border">
-                  <Phone className="w-8 h-8 text-primary mx-auto mb-2" />
-                  <p className="text-sm font-semibold">Voice</p>
-                </div>
-                <div className="p-4 rounded-lg bg-white border border-border">
-                  <Calendar className="w-8 h-8 text-primary mx-auto mb-2" />
-                  <p className="text-sm font-semibold">Booking</p>
-                </div>
-              </div>
-            </motion.div>
+            {/* Channel Images Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow"
+              >
+                <img src={chatImg} alt="Chat Interface" className="w-full h-full object-cover" />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow"
+              >
+                <img src={callImg} alt="Phone Interface" className="w-full h-full object-cover" />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow"
+              >
+                <img src={calendarImg} alt="Calendar Interface" className="w-full h-full object-cover" />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                className="rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow"
+              >
+                <img src={whatsappImg} alt="WhatsApp Interface" className="w-full h-full object-cover" />
+              </motion.div>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -132,16 +150,19 @@ export default function Home() {
                 icon: <Clock className="w-8 h-8" />,
                 title: "24/7 Availability",
                 description: "Never miss a lead — your receptionist never sleeps.",
+                image: callImg,
               },
               {
                 icon: <MessageCircle className="w-8 h-8" />,
                 title: "Multi-Channel Engagement",
                 description: "Chat, WhatsApp, SMS, Voice — meet customers on their terms.",
+                image: whatsappImg,
               },
               {
                 icon: <Calendar className="w-8 h-8" />,
                 title: "Smart Scheduling",
                 description: "Syncs with calendars and manages reschedules automatically.",
+                image: calendarImg,
               },
             ].map((item, idx) => (
               <motion.div
@@ -151,7 +172,10 @@ export default function Home() {
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
                 viewport={{ once: true }}
               >
-                <Card className="h-full border-border hover:border-primary/50 hover:shadow-lg transition-all">
+                <Card className="h-full border-border hover:border-primary/50 hover:shadow-lg transition-all overflow-hidden">
+                  <div className="w-full h-32 overflow-hidden bg-muted">
+                    <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                  </div>
                   <CardContent className="p-8">
                     <div className="text-primary mb-4">{item.icon}</div>
                     <h3 className="text-xl font-heading font-bold mb-2">{item.title}</h3>
