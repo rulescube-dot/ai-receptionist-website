@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "wouter";
 import {
   Phone,
   MessageCircle,
@@ -48,10 +49,12 @@ export default function Home() {
             </div>
 
             <div className="flex items-center gap-3">
-              <Button variant="ghost" size="sm">
-                Sign In
-              </Button>
-              <Button size="sm" className="bg-primary hover:bg-primary/90 text-white">
+              <Link href="/portal">
+                <Button variant="ghost" size="sm" data-testid="button-signin">
+                  Portal
+                </Button>
+              </Link>
+              <Button size="sm" className="bg-primary hover:bg-primary/90 text-white" data-testid="button-get-started">
                 Get Started
               </Button>
             </div>
