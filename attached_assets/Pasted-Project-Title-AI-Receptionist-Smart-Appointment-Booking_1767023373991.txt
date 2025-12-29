@@ -1,0 +1,130 @@
+Project Title:
+AI Receptionist — Smart Appointment Booking Across Chat, WhatsApp & Voice
+
+Project Summary:
+Design and deploy a modern, bold, and responsive marketing website on Replit for your AI Receptionist product. This site should clearly communicate how your AI handles appointment booking and customer engagements across multiple channels (chat, WhatsApp, voice), 24/7, with seamless scheduling and professional conversational experience — turning every interaction into booked business.
+
+Design Style:
+
+Clean & Bold UI: Light background (white), strong accent colors (modern blues), crisp typography.
+
+Responsive Layout: Works beautifully on mobile, tablet, and desktop.
+
+Interactive Elements: Smooth animations, hover states, sticky navigation, and clear call-to-action buttons.
+
+🧱 Website Structure & Core Content
+📍 1. Hero / Above the Fold
+
+Headline:
+
+AI Receptionist for the Next Generation of Customer Engagement
+
+Sub-headline:
+
+Automate appointment bookings and live conversations across chat, WhatsApp, and voice — so you never miss a lead, even after hours.
+
+Primary CTAs:
+
+Get Started
+
+Request Demo
+
+Visual:
+Stylized mockup showing multi-channel interface & appointment calendar.
+
+🧠 2. How It Works — 24/7 Intelligent Reception
+
+Section Title:
+
+Turn Every Interaction Into a Booking
+
+Copy Concepts:
+
+Our AI answers calls, chats, WhatsApp messages, and web enquiries — even when your team isn’t available.
+
+It can book, reschedule, or cancel appointments automatically, route complex cases to humans, and send confirmations.
+
+Works across channels where customers actually communicate — not just email or phone voicemail. 
+aifrontdesk.ca
+
+👉 Example bullets to include:
+
+24/7 Availability: Never miss a lead — your receptionist never sleeps. 
+aifrontdesk.ca
+
+Multi-Channel Engagement: Chat, WhatsApp, SMS, Voice — meet your customers on their terms. 
+aifrontdesk.ca
+
+Smart Scheduling: Syncs with calendars and manages reschedules automatically.
+
+📌 3. Key Features & Benefits
+
+Section Title:
+
+Turn Conversations Into Appointments — Effortlessly
+
+Feature Cards (with icons):
+
+Intelligent Call & Chat Handling — Natural, human-like AI that answers calls and texts instantly. 
+aifrontdesk.ca
+
+Appointment Scheduler — Books, cancels, reschedules, and confirms. 
+aifrontdesk.ca
+
+Multi-Channel Support — Chat, WhatsApp, Voice — all covered 24/7. 
+aifrontdesk.ca
+
+CRM & Calendar Sync — Connects with your existing tools so schedules stay up-to-date.
+
+Professional Brand Experience — Customizable response tones and branding to match your voice.
+
+Value-Driven Copy:
+
+Imagine never losing a client to a missed call. With our AI front desk, every enquiry becomes a chance to convert, drive revenue, and save your team hours each week. 
+aifrontdesk.ca
+
+💬 4. Testimonials / Social Proof
+
+Section Title:
+
+Loved by Businesses Like Yours
+
+Add quotes or metrics such as:
+
+“Our appointment bookings increased, and our team actually has time to focus on clients — while the AI handles routine scheduling.” — Happy Customer
+
+AI reception systems capture every inquiry and convert more bookings thanks to instant responses and intelligent automation. 
+aifrontdesk.ca
+
+📅 5. Call to Action / Lead Capture
+
+Section Title:
+
+Ready to Automate Your Front Desk?
+
+Include:
+
+Email capture form
+
+Buttons like Start Free Trial, Book a Demo
+
+Use bold blue buttons with white text and subtle hover animations.
+
+🦾 6. Footer
+
+Include:
+
+Contact Info
+
+Links: Pricing, Features, Privacy, Help
+
+Social Icons
+
+🛠 Tech & Replit Setup
+
+Prompt to Enter in Replit (AI-Agent Assisted Build):
+
+Create a modern, responsive marketing website called "AI Receptionist – Appointment Booking Agent" with a light theme (white and blue accent colors). Include a hero section with a bold headline, multi-channel product description, key features, benefits, testimonials, and clear CTAs (“Get Started”, “Request Demo”). Use HTML, CSS (or Tailwind), and JavaScript for interactivity. Make sure the site is mobile-friendly. Add sample UI graphics for chat, WhatsApp and voice scheduling interactions, and a signup form for lead capture. 
+
+
+You can paste that prompt into the Replit App → AI Agent tab to generate the project skeleton; Replit will scaffold HTML/CSS/JS files for you.
