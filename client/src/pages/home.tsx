@@ -438,12 +438,7 @@ export default function Home() {
                     </div>
                     <Button
                       size="lg"
-                      variant={plan.highlighted ? "default" : "outline"}
-                      className={`w-full mb-8 font-semibold ${
-                        plan.highlighted
-                          ? "bg-primary hover:bg-primary/90 text-white"
-                          : "border-2 border-primary text-primary hover:text-primary hover:bg-primary/5"
-                      }`}
+                      className="w-full mb-8 bg-primary hover:bg-primary/90 text-white font-semibold"
                     >
                       Get Started
                     </Button>
