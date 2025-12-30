@@ -12,6 +12,7 @@ import {
   ArrowRight,
   Mail,
 } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -43,8 +44,17 @@ export default function Home() {
               <a href="#how-it-works" className="text-sm font-medium hover:text-primary transition-colors">
                 How It Works
               </a>
-              <a href="#testimonials" className="text-sm font-medium hover:text-primary transition-colors">
-                Testimonials
+              <a href="#pricing" className="text-sm font-medium hover:text-primary transition-colors">
+                Pricing
+              </a>
+              <a href="#about" className="text-sm font-medium hover:text-primary transition-colors">
+                About
+              </a>
+              <a href="#contact" className="text-sm font-medium hover:text-primary transition-colors">
+                Contact
+              </a>
+              <a href="#pricing" className="text-sm font-medium hover:text-primary transition-colors">
+                Pricing
               </a>
             </div>
 
@@ -325,6 +335,309 @@ export default function Home() {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="relative py-20 sm:py-32 bg-gradient-to-br from-white via-blue-50 to-white overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4">
+              Simple, Transparent Pricing
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Choose a plan that fits your business size. Upgrade anytime as you grow.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {[
+              {
+                name: "Starter",
+                price: "$299",
+                period: "/month",
+                description: "Perfect for small businesses",
+                features: [
+                  "Up to 1,000 calls/month",
+                  "Chat widget",
+                  "Basic analytics",
+                  "Email support",
+                ],
+                highlighted: false,
+              },
+              {
+                name: "Professional",
+                price: "$799",
+                period: "/month",
+                description: "For growing teams",
+                features: [
+                  "Up to 10,000 calls/month",
+                  "All Starter features",
+                  "WhatsApp & SMS integration",
+                  "Priority support",
+                  "Advanced analytics",
+                  "Custom branding",
+                ],
+                highlighted: true,
+              },
+              {
+                name: "Enterprise",
+                price: "Custom",
+                period: "pricing",
+                description: "For large organizations",
+                features: [
+                  "Unlimited calls",
+                  "All Professional features",
+                  "Dedicated account manager",
+                  "Custom integrations",
+                  "SLA guarantee",
+                  "On-premise option",
+                ],
+                highlighted: false,
+              },
+            ].map((plan, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <Card
+                  className={`h-full border-2 transition-all ${
+                    plan.highlighted
+                      ? "border-primary shadow-lg scale-105"
+                      : "border-border hover:border-primary/50"
+                  }`}
+                >
+                  <CardContent className="p-8">
+                    {plan.highlighted && (
+                      <div className="bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full inline-block mb-4">
+                        MOST POPULAR
+                      </div>
+                    )}
+                    <h3 className="text-2xl font-heading font-bold mb-2">
+                      {plan.name}
+                    </h3>
+                    <p className="text-muted-foreground text-sm mb-4">
+                      {plan.description}
+                    </p>
+                    <div className="mb-6">
+                      <span className="text-4xl font-heading font-bold">
+                        {plan.price}
+                      </span>
+                      <span className="text-muted-foreground text-sm">
+                        {plan.period}
+                      </span>
+                    </div>
+                    <Button
+                      size="lg"
+                      className={`w-full mb-8 ${
+                        plan.highlighted
+                          ? "bg-primary hover:bg-primary/90 text-white"
+                          : "border-2 border-primary text-primary hover:bg-primary/10"
+                      }`}
+                    >
+                      Get Started
+                    </Button>
+                    <ul className="space-y-3">
+                      {plan.features.map((feature, fidx) => (
+                        <li key={fidx} className="flex items-center gap-2">
+                          <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0" />
+                          <span className="text-sm text-foreground">
+                            {feature}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="relative py-20 sm:py-32 bg-gradient-to-br from-purple-50 via-white to-blue-50 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-6">
+                About AI Receptionist
+              </h2>
+              <p className="text-lg text-muted-foreground mb-4">
+                We're on a mission to revolutionize how businesses handle customer interactions. Founded by a team of AI and customer service experts, AI Receptionist brings the power of advanced language models to your front desk.
+              </p>
+              <p className="text-lg text-muted-foreground mb-6">
+                With over 50,000 businesses using our platform, we've handled millions of conversations across voice, chat, WhatsApp, and web channels. Our AI is trained to understand context, handle complex queries, and convert inquiries into bookings — 24/7.
+              </p>
+              <div className="flex gap-8">
+                <div>
+                  <p className="text-3xl font-heading font-bold text-primary">
+                    50K+
+                  </p>
+                  <p className="text-muted-foreground text-sm">Active Businesses</p>
+                </div>
+                <div>
+                  <p className="text-3xl font-heading font-bold text-primary">
+                    10M+
+                  </p>
+                  <p className="text-muted-foreground text-sm">
+                    Conversations Handled
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="rounded-2xl overflow-hidden shadow-xl"
+            >
+              <div className="bg-gradient-to-br from-primary/20 to-primary/10 p-12 h-96 flex items-center justify-center">
+                <div className="text-center">
+                  <Users className="w-24 h-24 text-primary/30 mx-auto mb-4" />
+                  <p className="text-muted-foreground">
+                    Building the future of customer engagement
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="relative py-20 sm:py-32 bg-gradient-to-br from-blue-50 via-white to-purple-50 overflow-hidden">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4">
+              Get in Touch
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Questions? Our team is here to help. Reach out and we'll respond within 24 hours.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: true }}
+          >
+            <Card className="border-border">
+              <CardContent className="p-8">
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div>
+                    <form className="space-y-4">
+                      <div>
+                        <label className="text-sm font-semibold block mb-2">
+                          Full Name
+                        </label>
+                        <Input
+                          type="text"
+                          placeholder="Your name"
+                          data-testid="input-name"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-sm font-semibold block mb-2">
+                          Email
+                        </label>
+                        <Input
+                          type="email"
+                          placeholder="your@email.com"
+                          data-testid="input-contact-email"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-sm font-semibold block mb-2">
+                          Subject
+                        </label>
+                        <Input
+                          type="text"
+                          placeholder="How can we help?"
+                          data-testid="input-subject"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-sm font-semibold block mb-2">
+                          Message
+                        </label>
+                        <textarea
+                          placeholder="Tell us more..."
+                          rows={4}
+                          className="w-full px-3 py-2 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
+                          data-testid="textarea-message"
+                        />
+                      </div>
+                      <Button
+                        size="lg"
+                        className="w-full bg-primary hover:bg-primary/90 text-white"
+                        data-testid="button-send-message"
+                      >
+                        Send Message
+                      </Button>
+                    </form>
+                  </div>
+                  <div className="space-y-8">
+                    <div>
+                      <h3 className="text-lg font-heading font-bold mb-4 flex items-center gap-2">
+                        <Mail className="w-5 h-5 text-primary" />
+                        Email
+                      </h3>
+                      <p className="text-muted-foreground">
+                        hello@aireceptionist.com
+                      </p>
+                      <p className="text-muted-foreground text-sm">
+                        We'll respond within 24 hours
+                      </p>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-heading font-bold mb-4 flex items-center gap-2">
+                        <Phone className="w-5 h-5 text-primary" />
+                        Phone
+                      </h3>
+                      <p className="text-muted-foreground">
+                        (555) 123-4567
+                      </p>
+                      <p className="text-muted-foreground text-sm">
+                        Available Monday to Friday, 9AM-5PM EST
+                      </p>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-heading font-bold mb-4">
+                        Office Hours
+                      </h3>
+                      <p className="text-muted-foreground text-sm space-y-1">
+                        <div>Monday - Friday: 9AM - 5PM EST</div>
+                        <div>Saturday - Sunday: Closed</div>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
         </div>
       </section>
 
