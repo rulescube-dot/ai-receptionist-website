@@ -2,6 +2,7 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";
+import session from "express-session";
 
 const app = express();
 const httpServer = createServer(app);
@@ -33,6 +34,27 @@ export function log(message: string, source = "express") {
   console.log(`${formattedTime} [${source}] ${message}`);
 }
 
+
+//begin of session management function
+app.set("trust proxy", 1);
+
+app.use(
+  session({
+    name: "ai-receptionist.sid",
+    secret: process.env.SESSION_SECRET || "dev-secret-change-me",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: false, // must be false for localhost
+      sameSite: "lax",
+    },
+  }),
+);
+
+//end of session management function
+
+
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
@@ -58,9 +80,43 @@ app.use((req, res, next) => {
 
   next();
 });
+
+//health test
 app.get("/api/health", (_req, res) => {
   res.json({ status: "ok" });
 });
+
+//session test
+app.get("/api/session-test", (req, res) => {
+  const s = req.session as any;
+  s.count = (s.count || 0) + 1;
+
+  res.json({
+    message: "session ok",
+    count: s.count,
+  });
+});
+
+app.post("/api/login-mock", (req, res) => {
+  (req.session as any).user = {
+    id: "dev-user",
+    email: "dev@local",
+  };
+
+  res.json({ ok: true });
+});
+
+app.get("/api/me", (req, res) => {
+  const user = (req.session as any).user;
+
+  if (!user) {
+    return res.status(401).json({ message: "Not authenticated" });
+  }
+
+  res.json(user);
+});
+
+
 
 (async () => {
   await registerRoutes(httpServer, app);
