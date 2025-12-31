@@ -21,8 +21,26 @@ export default defineConfig({
     }
   },
 
+  server: {
+    host: "0.0.0.0",
+    port: 5173,
+    strictPort: true,
+    allowedHosts: true,
+    proxy: {
+      "/api": {
+        target: "http://localhost:5001",
+        changeOrigin: true,
+      },
+    },
+    fs: {
+      strict: true,
+      deny: ["**/.*"],
+    },
+  },
+
   build: {
     outDir: path.resolve(__dirname, "dist/public"),
     emptyOutDir: true
   }
+  
 });
