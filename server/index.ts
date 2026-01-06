@@ -3,6 +3,10 @@ import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";
 import session from "express-session";
+import { requireAuth } from "./middleware/requireAuth";
+import { requireRole } from "./middleware/requireRole";
+import { adminRouter } from "./routes/admin";
+import { storage } from "./storage";
 
 const app = express();
 const httpServer = createServer(app);
@@ -81,6 +85,8 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use("/api/admin", adminRouter);
+
 //health test
 app.get("/api/health", (_req, res) => {
   res.json({ status: "ok" });
@@ -97,14 +103,33 @@ app.get("/api/session-test", (req, res) => {
   });
 });
 
-app.post("/api/login-mock", (req, res) => {
-  (req.session as any).user = {
-    id: "dev-user",
-    email: "dev@local",
+app.post("/api/login", async (req, res) => {
+  const { username } = req.body;
+
+  if (!username) {
+    return res.status(400).json({ message: "username required" });
+  }
+
+  let user = await storage.getUserByUsername(username);
+
+  if (!user) {
+    user = await storage.createUser({
+      username,
+      password: "temp", // placeholder for now
+      role: username.startsWith("admin") ? "admin" : "user",
+    });
+  }
+
+  req.session.user = {
+    id: user.id,
+    username: user.username,
+    role: user.role,
   };
 
-  res.json({ ok: true });
+  res.json({ user });
 });
+
+
 
 app.get("/api/me", (req, res) => {
   const user = (req.session as any).user;
@@ -113,8 +138,16 @@ app.get("/api/me", (req, res) => {
     return res.status(401).json({ message: "Not authenticated" });
   }
 
-  res.json(user);
+  res.json({ user });
 });
+
+app.get("/api/admin/ping", requireAuth, requireRole("admin"), (req, res) => {
+    res.json({
+      message: "admin ok",
+      user: req.session.user,
+    });
+  }
+);
 
 
 

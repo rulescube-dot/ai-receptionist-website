@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Link } from "wouter";
+import { useAuth } from "@/hooks/useAuth";
 
 const mockUser = {
   name: "Sarah Johnson",
@@ -77,6 +78,9 @@ const mockPreferences = [
 ];
 
 export default function Portal() {
+
+  const { user , isLoading } = useAuth();
+
   const [preferences, setPreferences] = useState(mockPreferences);
 
   const togglePreference = (id: string) => {
@@ -86,6 +90,14 @@ export default function Portal() {
       )
     );
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!user) {
+    return <div>Not authenticated</div>; // later redirect
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 text-foreground">
