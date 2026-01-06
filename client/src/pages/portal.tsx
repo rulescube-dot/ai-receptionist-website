@@ -15,6 +15,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Link } from "wouter";
 import { useAuth } from "@/hooks/useAuth";
+import { logout } from "@/lib/auth";
+
+// Mock data
 
 const mockUser = {
   name: "Sarah Johnson",
@@ -79,7 +82,7 @@ const mockPreferences = [
 
 export default function Portal() {
 
-  const { user , isLoading } = useAuth();
+  const { user , isLoading, isAuthenticated, isAdmin } = useAuth();
 
   const [preferences, setPreferences] = useState(mockPreferences);
 
@@ -91,16 +94,30 @@ export default function Portal() {
     );
   };
 
+// 🔄 loading
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="p-8">Loading…</div>;
   }
 
-  if (!user) {
-    return <div>Not authenticated</div>; // later redirect
+  // 🔒 not logged in
+  if (!isAuthenticated || !user) {
+    return (
+      <div className="p-8">
+        <h1 className="text-xl font-semibold">Not authenticated</h1>
+        <p>Please log in to access the portal.</p>
+      </div>
+    );
   }
 
+  // ✅ from here on, user is guaranteed
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 text-foreground">
+       {/* 🔵 Admin banner */}
+      {isAdmin && (
+        <div className="mx-6 mt-4 rounded border border-blue-300 bg-blue-50 p-3 text-sm">
+          Admin mode — viewing customer portal
+        </div>
+      )}
       {/* Header */}
       <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-sm border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -118,9 +135,16 @@ export default function Portal() {
 
             <div className="flex items-center gap-4">
               <span className="text-sm text-muted-foreground hidden sm:inline">
-                {mockUser.email}
+                {user.username}
               </span>
-              <Button variant="outline" size="sm">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={async () => {
+                  await logout();
+                  window.location.reload(); // simple + deterministic
+                }}
+              >
                 <LogOut className="w-4 h-4 mr-2" />
                 Sign Out
               </Button>
