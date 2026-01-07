@@ -16,6 +16,8 @@ import { Switch } from "@/components/ui/switch";
 import { Link } from "wouter";
 import { useAuth } from "@/hooks/useAuth";
 import { logout } from "@/lib/auth";
+import { useImpersonation } from "@/context/ImpersonationContext";
+import AdminCustomerSelector from "@/components/AdminCustomerSelector";
 
 // Mock data
 
@@ -80,20 +82,15 @@ const mockPreferences = [
   },
 ];
 
+
 export default function Portal() {
 
   const { user , isLoading, isAuthenticated, isAdmin } = useAuth();
 
+  const { activeCustomer } = useImpersonation();
+
   const [preferences, setPreferences] = useState(mockPreferences);
-
-  const togglePreference = (id: string) => {
-    setPreferences(
-      preferences.map((pref) =>
-        pref.id === id ? { ...pref, enabled: !pref.enabled } : pref
-      )
-    );
-  };
-
+  
 // 🔄 loading
   if (isLoading) {
     return <div className="p-8">Loading…</div>;
@@ -109,15 +106,33 @@ export default function Portal() {
     );
   }
 
+  const effectiveUser = activeCustomer ?? user;
+
+  const togglePreference = (id: string) => {
+    setPreferences(
+      preferences.map((pref) =>
+        pref.id === id ? { ...pref, enabled: !pref.enabled } : pref
+      )
+    );
+  };
+
+
+
+
   // ✅ from here on, user is guaranteed
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 text-foreground">
-       {/* 🔵 Admin banner */}
-      {isAdmin && (
-        <div className="mx-6 mt-4 rounded border border-blue-300 bg-blue-50 p-3 text-sm">
-          Admin mode — viewing customer portal
-        </div>
-      )}
+    <>
+      {/* Admin-only selector */}
+      {isAdmin && <AdminCustomerSelector />}
+
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 text-foreground">
+        {/* 🔵 Admin banner */}
+        {isAdmin && (
+          <div className="mx-6 mt-4 rounded border border-blue-300 bg-blue-50 p-3 text-sm">
+            Admin mode — viewing customer portal as{" "}
+            <strong>{effectiveUser.username}</strong>
+          </div>
+        )}
       {/* Header */}
       <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-sm border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -135,7 +150,7 @@ export default function Portal() {
 
             <div className="flex items-center gap-4">
               <span className="text-sm text-muted-foreground hidden sm:inline">
-                {user.username}
+                {effectiveUser.username}
               </span>
               <Button
                 variant="outline"
@@ -162,7 +177,7 @@ export default function Portal() {
           className="mb-12"
         >
           <h1 className="text-4xl font-heading font-bold mb-2">
-            Welcome back, {mockUser.name}!
+            Welcome back, {effectiveUser.username}!
           </h1>
           <p className="text-lg text-muted-foreground">{mockUser.company}</p>
         </motion.div>
@@ -273,5 +288,6 @@ export default function Portal() {
         </motion.div>
       </div>
     </div>
+    </>
   );
 }
