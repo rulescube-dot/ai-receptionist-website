@@ -7,18 +7,23 @@ export type AuthUser = {
 };
 
 export function useAuth() {
-  const { data, isLoading, isError } = useQuery<{ data: AuthUser }>({
+  const { 
+    data, 
+    isLoading, 
+    isError 
+  } = useQuery<{ data: AuthUser }>({
     queryKey: ["/api/me"],
     retry: false,
   });
 
+  const status = (isError as any)?.status;
   const user = data?.data ?? null;
 
   return {
-    user,
+    user: data?.data ?? null,
     isLoading,
-    isError,
-    isAuthenticated: !!user,
-    isAdmin: user?.role === "admin",
+    isAuthenticated: !!data?.data,
+    isAdmin: data?.data?.role === "admin",
+    isDisabled: status === 403, 
   };
 }

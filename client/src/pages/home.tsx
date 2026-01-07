@@ -53,9 +53,6 @@ export default function Home() {
               <a href="#contact" className="text-sm font-medium hover:text-primary transition-colors">
                 Contact
               </a>
-              <a href="#pricing" className="text-sm font-medium hover:text-primary transition-colors">
-                Pricing
-              </a>
             </div>
 
             <div className="flex items-center gap-3">

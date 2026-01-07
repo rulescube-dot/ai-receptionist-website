@@ -4,18 +4,24 @@ import { storage } from "../storage";
 export const authRouter = Router();
 
 authRouter.post("/login", async (req, res) => {
-  const { username } = req.body;
+  const { username, password } = req.body;
 
-  if (!username) {
-    return res.status(400).json({ message: "username required" });
+  if (!username || !password) {
+    return res.status(400).json({ message: "username and password required" });
   }
 
-  // TEMP LOGIN (testing only)
-  //const role = username.startsWith("admin") ? "admin" : "user";
+
   const user = await storage.getUserByUsername(username);
-    if (!user) {
-    return res.status(401).json({ message: "Invalid username" });
+    if (!user || user.password !== password) {
+    return res.status(401).json({ message: "Invalid username or password" });
   }
+
+  if (!user.active) {
+    return res.status(403).json({ 
+      message: "Your Account is disabled. Please contact an administrator."
+     });
+  }
+
 
 
   req.session.user = {

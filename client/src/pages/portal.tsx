@@ -85,7 +85,7 @@ const mockPreferences = [
 
 export default function Portal() {
 
-  const { user , isLoading, isAuthenticated, isAdmin } = useAuth();
+  const { user , isLoading, isAuthenticated, isAdmin, isDisabled } = useAuth();
 
   const { activeCustomer } = useImpersonation();
 
@@ -94,6 +94,18 @@ export default function Portal() {
 // 🔄 loading
   if (isLoading) {
     return <div className="p-8">Loading…</div>;
+  }
+
+// ⛔ disabled
+  if (isDisabled) {
+    return (
+      <div className="p-8">
+        <h1 className="text-xl font-semibold">Account Disabled</h1>
+        <p>
+          Your account has been disabled. Please contact support for more information.
+        </p>
+      </div>
+    );
   }
 
   // 🔒 not logged in

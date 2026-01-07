@@ -51,3 +51,20 @@ adminRouter.patch("/users/:id/role", async (req, res) => {
   const user = await storage.updateUserRole(id, role);
   res.json(user);
 });
+
+adminRouter.patch("/users/:id/disable", async (req, res) => {
+  const user = await storage.setUserActive(req.params.id, false);
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  } 
+  res.json(user);
+});
+
+adminRouter.patch("/users/:id/enable", async (req, res) => {
+  const user = await storage.setUserActive(req.params.id, true);
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+  res.json(user);
+});
+

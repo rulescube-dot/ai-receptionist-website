@@ -1,31 +1,25 @@
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { login } from "@/lib/auth";
 import { useLocation } from "wouter";
 
-export default function Login() {
-  const [, navigate] = useLocation();
+export default function LoginPage() {
+  const [, setLocation] = useLocation();
+
   const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  async function handleLogin() {
-    setLoading(true);
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
     setError(null);
+    setLoading(true);
 
     try {
-      const res = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ username }),
-      });
-
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.message || "Login failed");
-      }
-
-      // Go to portal by default
-      navigate("/portal");
+      await login(username, password);
+      setLocation("/portal");
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -35,32 +29,43 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50">
-      <div className="bg-white p-6 rounded border w-96">
-        <h1 className="text-xl font-bold mb-4">Dev Login</h1>
+      <Card className="w-full max-w-sm">
+        <CardHeader>
+          <CardTitle>Sign in</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="text-sm font-medium">Username</label>
+              <input
+                className="w-full border rounded px-3 py-2"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            </div>
 
-        <input
-          className="w-full border p-2 rounded mb-3"
-          placeholder="username (admin or user)"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
+            <div>
+              <label className="text-sm font-medium">Password</label>
+              <input
+                type="password"
+                className="w-full border rounded px-3 py-2"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
 
-        {error && (
-          <div className="text-sm text-red-600 mb-2">{error}</div>
-        )}
+            {error && (
+              <div className="text-sm text-red-600">{error}</div>
+            )}
 
-        <button
-          className="w-full bg-blue-600 text-white py-2 rounded disabled:opacity-50"
-          onClick={handleLogin}
-          disabled={loading || !username}
-        >
-          {loading ? "Logging in…" : "Login"}
-        </button>
-
-        <p className="text-xs text-muted-foreground mt-3">
-          Use <code>admin</code> or <code>user1</code>
-        </p>
-      </div>
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? "Signing in…" : "Sign in"}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 }
