@@ -11,7 +11,7 @@ type AdminUser = {
 export default function AdminPage() {
   const queryClient = useQueryClient();
 
-  const { data, isLoading } = useQuery<{ users: AdminUser[] }>({
+  const { data, isLoading } = useQuery<{ data: AdminUser[] }>({
     queryKey: ["/api/admin/users"],
   });
 
@@ -48,7 +48,7 @@ export default function AdminPage() {
             </tr>
           </thead>
           <tbody>
-            {data?.users.map(u => (
+            {data?.data.map(u => (
               <tr key={u.id} className="border-b">
                 <td className="p-2">{u.username}</td>
                 <td className="p-2">{u.role}</td>

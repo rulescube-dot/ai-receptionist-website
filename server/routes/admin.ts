@@ -18,7 +18,7 @@ adminRouter.get("/users", async (_req, res) => {
     role: u.role,
   }));
 
-  res.json({ users: safeUsers });
+  res.json({ data: safeUsers });
 });
 
 

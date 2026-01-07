@@ -46,5 +46,11 @@ authRouter.get("/me", (req, res) => {
     return res.status(401).json({ message: "Not authenticated" });
   }
 
-  res.json({ user: req.session.user });
+  res.json({ 
+    data: {
+        id: req.session.user.id,
+        username: req.session.user.username,
+        role: req.session.user.role,
+        },
+    });
 });
