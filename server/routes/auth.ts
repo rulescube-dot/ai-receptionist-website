@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { storage } from "../storage";
 
 export const authRouter = Router();
 
@@ -10,12 +11,17 @@ authRouter.post("/login", async (req, res) => {
   }
 
   // TEMP LOGIN (testing only)
-  const role = username.startsWith("admin") ? "admin" : "user";
+  //const role = username.startsWith("admin") ? "admin" : "user";
+  const user = await storage.getUserByUsername(username);
+    if (!user) {
+    return res.status(401).json({ message: "Invalid username" });
+  }
+
 
   req.session.user = {
-    id: crypto.randomUUID(),
-    username,
-    role,
+    id: user.id,
+    username: user.username,
+    role: user.role,
   };
 
   res.json({ user: req.session.user });

@@ -10,8 +10,17 @@ adminRouter.use(requireAuth, requireRole("admin"));
 
 adminRouter.get("/users", async (_req, res) => {
   const users = await storage.getUsers();
-  res.json(users);
+
+  // 🔒 sanitize output
+  const safeUsers = users.map(u => ({
+    id: u.id,
+    username: u.username,
+    role: u.role,
+  }));
+
+  res.json({ users: safeUsers });
 });
+
 
 adminRouter.post("/users", async (req, res) => {
   const { username, role } = req.body;
