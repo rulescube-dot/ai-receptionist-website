@@ -1,19 +1,19 @@
 {
-  "version": "7",
+  "version": "5",
   "dialect": "postgresql",
   "entries": [
     {
       "idx": 0,
-      "version": "7",
-      "when": 1767579235916,
-      "tag": "0000_abandoned_kingpin",
+      "version": "0000",
+      "when": 1700000000000,
+      "tag": "baseline",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
-      "when": 1767820119081,
-      "tag": "0001_uneven_gamora",
+      "when": 1768177665894,
+      "tag": "0001_brown_earthquake",
       "breakpoints": true
     }
   ]

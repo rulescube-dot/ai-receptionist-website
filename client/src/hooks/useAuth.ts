@@ -4,6 +4,8 @@ export type AuthUser = {
   id: string;
   username: string;
   role: "admin" | "user";
+  active?: boolean;
+
 };
 
 export function useAuth() {

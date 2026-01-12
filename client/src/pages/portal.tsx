@@ -18,7 +18,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { logout } from "@/lib/auth";
 import { useImpersonation } from "@/context/ImpersonationContext";
 import AdminCustomerSelector from "@/components/AdminCustomerSelector";
-
+import { useLocation } from "wouter";
+import { useEffect } from "react";
 // Mock data
 
 const mockUser = {
@@ -91,6 +92,7 @@ export default function Portal() {
 
   const [preferences, setPreferences] = useState(mockPreferences);
   
+ 
 // 🔄 loading
   if (isLoading) {
     return <div className="p-8">Loading…</div>;
@@ -108,17 +110,12 @@ export default function Portal() {
     );
   }
 
-  // 🔒 not logged in
-  if (!isAuthenticated || !user) {
-    return (
-      <div className="p-8">
-        <h1 className="text-xl font-semibold">Not authenticated</h1>
-        <p>Please log in to access the portal.</p>
-      </div>
-    );
-  }
 
   const effectiveUser = activeCustomer ?? user;
+
+  if (!effectiveUser) {
+    return null;
+  }
 
   const togglePreference = (id: string) => {
     setPreferences(
@@ -161,21 +158,29 @@ export default function Portal() {
             </Link>
 
             <div className="flex items-center gap-4">
+              <Link href="/change-password">
+                <button className="text-sm text-muted-foreground hover:underline">
+                  Change password
+                </button>
+              </Link>
+
               <span className="text-sm text-muted-foreground hidden sm:inline">
                 {effectiveUser.username}
               </span>
+
               <Button
                 variant="outline"
                 size="sm"
                 onClick={async () => {
                   await logout();
-                  window.location.reload(); // simple + deterministic
+                  window.location.href = "/";
                 }}
               >
                 <LogOut className="w-4 h-4 mr-2" />
                 Sign Out
               </Button>
             </div>
+
           </div>
         </div>
       </nav>

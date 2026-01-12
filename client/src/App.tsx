@@ -6,17 +6,34 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Portal from "@/pages/portal";
-import Admin from "@/pages/admin";
-import Login from "./pages/login";
+import AdminPage from "@/pages/admin";
+import LoginPage from "./pages/login";
 import { ImpersonationProvider } from "@/context/ImpersonationContext";
+import RequireAuth from "./components/RequireAuth";
+import AdminGuard from "./components/AdminGuard";
+import ChangePasswordPage from "./pages/change-password";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
-      <Route path="/portal" component={Portal} />
-      <Route path="/admin" component={Admin} />
-      <Route path="/login" component={Login} />
+      
+      <Route path="/portal">
+        <RequireAuth redirectTo="/portal">
+          <Portal />
+        </RequireAuth>
+      </Route>
+
+      <Route path="/admin">
+        <RequireAuth redirectTo="/admin">
+          <AdminGuard>
+            <AdminPage />
+          </AdminGuard>
+        </RequireAuth>
+      </Route>
+
+      <Route path="/change-password" component={ChangePasswordPage} />
+      <Route path="/login" component={LoginPage} />
       <Route component={NotFound} />
     </Switch>
   );

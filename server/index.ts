@@ -8,6 +8,8 @@ import { requireRole } from "./middleware/requireRole";
 import { adminRouter } from "./routes/admin";
 import { storage } from "./storage";
 import { authRouter } from "./routes/auth";
+import pg from "pg";
+import connectPgSimple from "connect-pg-simple";
 
 
 const app = express();
@@ -18,6 +20,12 @@ declare module "http" {
     rawBody: unknown;
   }
 }
+
+const PgSession = connectPgSimple(session);
+const pgPool = new pg.Pool({
+  connectionString: process.env.DATABASE_URL,
+});
+
 
 app.use(
   express.json({
@@ -40,23 +48,38 @@ export function log(message: string, source = "express") {
   console.log(`${formattedTime} [${source}] ${message}`);
 }
 
+if (!process.env.SESSION_SECRET) {
+  throw new Error("SESSION_SECRET is not set");
+}
 
-//begin of session management function
 app.set("trust proxy", 1);
 
 app.use(
   session({
     name: "ai-receptionist.sid",
-    secret: process.env.SESSION_SECRET || "dev-secret-change-me",
+
+    store: new PgSession({
+      pool: pgPool,
+      tableName: "session",
+      createTableIfMissing: true,
+    }),
+
+    secret: process.env.SESSION_SECRET,
+
     resave: false,
     saveUninitialized: false,
+    rolling: true,
+
     cookie: {
       httpOnly: true,
-      secure: false, // must be false for localhost
+      secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
+      maxAge: 1000 * 60 * 60 * 8, // 8 hours
+      path: "/",
     },
-  }),
+  })
 );
+
 
 //end of session management function
 

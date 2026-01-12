@@ -2,13 +2,9 @@ import { ReactNode } from "react";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function AdminGuard({ children }: { children: ReactNode }) {
-  const { user, isLoading, isAdmin } = useAuth();
+  const { isAdmin } = useAuth();
 
-  if (isLoading) {
-    return <div className="p-8">Loading…</div>;
-  }
-
-  if (!user || !isAdmin) {
+  if (!isAdmin) {
     return (
       <div className="p-8">
         <h1 className="text-xl font-semibold">Access denied</h1>

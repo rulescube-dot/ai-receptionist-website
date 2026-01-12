@@ -1,0 +1,2 @@
+-- baseline migration
+-- existing database schema assumed
