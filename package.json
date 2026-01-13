@@ -107,5 +107,8 @@
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.8"
+  },
+  "volta": {
+    "node": "22.21.1"
   }
 }

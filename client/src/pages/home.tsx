@@ -3,765 +3,495 @@ import { motion } from "framer-motion";
 import { Link } from "wouter";
 import {
   Phone,
-  MessageCircle,
-  Calendar,
-  Zap,
   Clock,
   Users,
   CheckCircle2,
   ArrowRight,
-  Mail,
+  Bot,
+  Menu,
+  X,
+  Stethoscope,
+  Home as HomeIcon,
+  Calendar
 } from "lucide-react";
-import { Textarea } from "@/components/ui/textarea";
+
+import Seo from "@/components/Seo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+
+// Image Imports
+import heroImg from "@assets/generated_images/virtualAssistance.png";
 import chatImg from "@assets/generated_images/modern_chat_interface_mockup_with_blue_theme.png";
 import callImg from "@assets/generated_images/professional_phone_call_interface_mockup.png";
 import calendarImg from "@assets/generated_images/calendar_scheduling_interface_mockup.png";
 import whatsappImg from "@assets/generated_images/whatsapp_conversation_mockup_on_phone.png";
 
+const DEMO_MAILTO =
+  "mailto:contact@rulescube.com?subject=AI%20Receptionist%20Demo%20Request&body=Hi%20there%2C%0A%0AI%27d%20like%20to%20request%20a%20demo.%0A%0ACompany%3A%0AIndustry%3A%0AVolume%20(approx)%3A%0APreferred%20contact%20time%3A%0A%0AThanks!";
+
+const CONTACT_MAILTO =
+  "mailto:contact@rulescube.com?subject=AI%20Receptionist%20-%20Contact%20Us&body=Hi%20there%2C%0A%0AI%20have%20a%20question%20about%20AI%20Receptionist.%0A%0ACompany%3A%0AIndustry%3A%0AQuestion%3A%0A%0AThanks!";
+
+function WaveBackdrop() {
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
+      <div className="absolute -top-32 -right-32 h-[500px] w-[500px] rounded-full bg-blue-400/20 blur-[100px]" />
+      <div className="absolute top-10 -left-40 h-[600px] w-[600px] rounded-full bg-indigo-400/20 blur-[100px]" />
+      <div className="absolute bottom-0 left-1/3 h-[600px] w-[600px] rounded-full bg-purple-400/20 blur-[100px]" />
+    </div>
+  );
+}
+
 export default function Home() {
   const [email, setEmail] = useState("");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const features = [
+    {
+      image: callImg,
+      title: "24/7 Professional Call Handling",
+      desc: "Never send a client to voicemail again. Our AI answers inbound calls instantly, handles FAQs, and routes complex requests based on your specific business rules.",
+      bullets: ["Zero hold times during peak hours", "Polite, consistent tone every time", "Seamless handoff for complex issues"],
+    },
+    {
+      image: calendarImg,
+      title: "Automated Calendar Scheduling",
+      desc: "Stop the email ping-pong. The AI Receptionist checks your real-time availability and books appointments directly into your calendar while you work.",
+      bullets: ["Integrates with Google & Outlook", "Prevents double-bookings", "Sends automatic confirmations"],
+    },
+    {
+      image: whatsappImg,
+      title: "WhatsApp & Multi-Channel Support",
+      desc: "Meet your customers where they are. Whether they prefer WhatsApp, SMS, or web chat, your AI agent provides a unified experience across all platforms.",
+      bullets: ["Instant replies on WhatsApp", "Unified context across channels", "Higher engagement rates"],
+    },
+    {
+      image: chatImg,
+      title: "Intelligent Chat Conversations",
+      desc: "More than just a chatbot. Engage leads in natural, human-like conversations to qualify them and collect the details you need before you ever speak to them.",
+      bullets: ["Captures lead contact info", "Qualifies intent automatically", "Reduces drop-off from slow replies"],
+    },
+  ];
 
   return (
-    <div className="min-h-screen bg-white text-foreground selection:bg-primary selection:text-white">
+    <div className="min-h-screen bg-white text-slate-900 selection:bg-blue-600 selection:text-white font-sans">
+      <Seo
+        title="AI Receptionist | Automate Calls, Chats & Booking"
+        description="AI Receptionist answers calls, chats with customers, and books appointments automatically 24/7."
+        canonicalPath="/"
+      />
+
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-sm border-b border-border">
+      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 supports-[backdrop-filter]:bg-white/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                <Phone className="w-5 h-5 text-primary" />
+          <div className="flex justify-between items-center h-20">
+            <Link href="/">
+              <div className="flex items-center gap-2.5 cursor-pointer group">
+                <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center shadow-md group-hover:bg-blue-700 transition-colors">
+                  <Bot className="w-5 h-5 text-white" />
+                </div>
+                <span className="font-bold text-xl tracking-tight text-slate-900">AI Receptionist</span>
               </div>
-              <span className="font-heading font-bold text-lg">AI Receptionist</span>
-            </div>
+            </Link>
 
+            {/* Desktop Nav */}
             <div className="hidden md:flex items-center gap-8">
-              <a href="#features" className="text-sm font-medium hover:text-primary transition-colors">
-                Features
-              </a>
-              <a href="#how-it-works" className="text-sm font-medium hover:text-primary transition-colors">
-                How It Works
-              </a>
-              <a href="#pricing" className="text-sm font-medium hover:text-primary transition-colors">
-                Pricing
-              </a>
-              <a href="#about" className="text-sm font-medium hover:text-primary transition-colors">
-                About
-              </a>
-              <a href="#contact" className="text-sm font-medium hover:text-primary transition-colors">
-                Contact
+              {["Features", "Industries", "FAQ"].map((item) => (
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
+                  className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors"
+                >
+                  {item}
+                </a>
+              ))}
+              <a href={DEMO_MAILTO}>
+                <Button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full px-6 shadow-lg shadow-blue-600/20">
+                  Request Demo
+                </Button>
               </a>
             </div>
 
-            <div className="flex items-center gap-3">
-              <Link href="/portal">
-                <Button variant="ghost" size="sm" data-testid="button-signin">
-                  Portal
-                </Button>
-              </Link>
-              <Button size="sm" className="bg-primary hover:bg-primary/90 text-white" data-testid="button-get-started">
-                Get Started
-              </Button>
+            {/* Mobile Menu Toggle */}
+            <div className="md:hidden">
+              <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 text-slate-600">
+                {isMobileMenuOpen ? <X /> : <Menu />}
+              </button>
             </div>
           </div>
         </div>
+        
+        {/* Mobile Nav */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden absolute top-20 left-0 w-full bg-white border-b border-slate-200 p-4 flex flex-col gap-4 shadow-xl">
+            {["Features", "Industries", "FAQ"].map((item) => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
+                className="text-sm font-medium text-slate-600 py-2"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {item}
+              </a>
+            ))}
+             <a href={DEMO_MAILTO} onClick={() => setIsMobileMenuOpen(false)}>
+                <Button className="w-full bg-blue-600 text-white">Request Demo</Button>
+              </a>
+          </div>
+        )}
       </nav>
 
       {/* Hero Section */}
-      <section className="relative py-20 sm:py-32 overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <section className="relative overflow-hidden pt-16 pb-20 lg:pt-24 lg:pb-32">
+        <WaveBackdrop />
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+            
+            {/* Left Content */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="max-w-2xl"
+            >
+              <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50/50 px-4 py-1.5 text-xs font-semibold text-blue-700 mb-6">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                </span>
+                Now available for Healthcare & Real Estate
+              </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center max-w-3xl mx-auto"
-          >
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-bold tracking-tight mb-6">
-              AI Receptionist for the Next Generation of Customer Engagement
-            </h1>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.15]">
+                The AI Receptionist That <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Never Sleeps</span>
+              </h1>
 
-            <p className="text-lg sm:text-xl text-muted-foreground mb-10 leading-relaxed">
-              Automate appointment bookings and live conversations across chat, WhatsApp, and voice — so you never miss a lead, even after hours.
-            </p>
+              <p className="mt-6 text-lg sm:text-xl text-slate-600 leading-relaxed">
+                Capture every lead, 24/7. Our AI answers calls, engages in chat, and books appointments instantly so your team can focus on what matters.
+              </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-              <Button size="lg" className="h-12 px-8 bg-primary hover:bg-primary/90 text-white font-semibold">
-                Get Started
-              </Button>
-              <Button size="lg" variant="outline" className="h-12 px-8 border-2 border-primary text-primary hover:bg-primary/10 font-semibold">
-                Request Demo
-              </Button>
-            </div>
+              <div className="mt-8 flex flex-col sm:flex-row gap-4">
+                <a href={DEMO_MAILTO}>
+                  <Button size="lg" className="h-14 px-8 text-base bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-xl shadow-blue-600/20 transition-all hover:scale-105">
+                    Request a Demo <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                </a>
+                
+              </div>
 
-            {/* Channel Images Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow"
-              >
-                <img src={chatImg} alt="Chat Interface" className="w-full h-full object-cover" />
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow"
-              >
-                <img src={callImg} alt="Phone Interface" className="w-full h-full object-cover" />
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                className="rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow"
-              >
-                <img src={calendarImg} alt="Calendar Interface" className="w-full h-full object-cover" />
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.5 }}
-                className="rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow"
-              >
-                <img src={whatsappImg} alt="WhatsApp Interface" className="w-full h-full object-cover" />
-              </motion.div>
-            </div>
-          </motion.div>
+
+            </motion.div>
+
+            {/* Right Image */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="relative lg:ml-auto"
+            >
+              <div className="relative rounded-2xl bg-gradient-to-b from-slate-100 to-white p-2 shadow-2xl ring-1 ring-slate-200/50">
+                <div className="rounded-xl overflow-hidden bg-white aspect-[4/3] relative">
+                  <img
+                    src={heroImg}
+                    alt="AI Receptionist Dashboard"
+                    className="w-full h-full object-cover transform transition-transform duration-700 hover:scale-105"
+                  />
+                  {/* Floating Badge */}
+                  <div className="absolute bottom-6 left-6 bg-white/90 backdrop-blur-sm border border-slate-100 p-3 rounded-xl shadow-lg flex items-center gap-3 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+                    <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                      <Calendar className="w-5 h-5 text-green-600" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-slate-500 font-medium">New Booking</p>
+                      <p className="text-sm font-bold text-slate-900">Tomorrow, 10:00 AM</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* How It Works */}
-      <section id="how-it-works" className="relative py-20 sm:py-32 bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50 overflow-hidden">
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4">
-              Turn Every Interaction Into a Booking
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Our AI answers calls, chats, WhatsApp messages, and web enquiries — even when your team isn't available.
+      {/* Trust / Stats */}
+      <section className="border-y border-slate-100 bg-slate-50/50 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+           <div className="grid grid-cols-2 md:grid-cols-3 gap-8 text-center">
+             {[
+               { label: "Availability", value: "24/7" },
+               { label: "Response Time", value: "< 2 sec" },
+               { label: "Missed Calls", value: "0%" },
+
+             ].map((stat, i) => (
+               <div key={i}>
+                 <p className="text-3xl font-extrabold text-slate-900">{stat.value}</p>
+                 <p className="text-sm font-medium text-slate-500 uppercase tracking-wide mt-1">{stat.label}</p>
+               </div>
+             ))}
+           </div>
+        </div>
+      </section>
+
+      {/* Problem Section */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900">Your Front Desk is Overwhelmed.</h2>
+            <p className="mt-4 text-lg text-slate-600">
+              In a service business, speed is everything. Relying on voicemail or slow email replies means losing money to competitors who answer first.
             </p>
-          </motion.div>
+          </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                icon: <Clock className="w-8 h-8" />,
-                title: "24/7 Availability",
-                description: "Never miss a lead — your receptionist never sleeps.",
-                image: callImg,
+                icon: Phone,
+                title: "Missed Calls = Lost Revenue",
+                desc: "67% of customers hang up if they get voicemail. You can't afford to miss after-hours or peak-time calls.",
               },
               {
-                icon: <MessageCircle className="w-8 h-8" />,
-                title: "Multi-Channel Engagement",
-                description: "Chat, WhatsApp, SMS, Voice — meet customers on their terms.",
-                image: whatsappImg,
+                icon: Clock,
+                title: "Endless Scheduling Tag",
+                desc: "The back-and-forth emails to find a time slot kills momentum. You need bookings, not conversation.",
               },
               {
-                icon: <Calendar className="w-8 h-8" />,
-                title: "Smart Scheduling",
-                description: "Syncs with calendars and manages reschedules automatically.",
-                image: calendarImg,
-              },
-            ].map((item, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <Card className="h-full border-border hover:border-primary/50 hover:shadow-lg transition-all overflow-hidden">
-                  <div className="w-full h-32 overflow-hidden bg-muted">
-                    <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                icon: Users,
+                title: "Staff Burnout",
+                desc: "Your skilled staff shouldn't be tied up answering basic FAQs like 'where are you located?' or 'hours of operation'.",
+              }
+            ].map((item, i) => (
+              <Card key={i} className="border-none shadow-lg bg-slate-50">
+                <CardContent className="p-8">
+                  <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-6">
+                    <item.icon className="w-6 h-6 text-red-600" />
                   </div>
-                  <CardContent className="p-8">
-                    <div className="text-primary mb-4">{item.icon}</div>
-                    <h3 className="text-xl font-heading font-bold mb-2">{item.title}</h3>
-                    <p className="text-muted-foreground">{item.description}</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
+                  <p className="text-slate-600 leading-relaxed">{item.desc}</p>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section id="features" className="relative py-20 sm:py-32 bg-gradient-to-br from-white via-purple-50 to-blue-50 overflow-hidden">
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4">
-              Turn Conversations Into Appointments — Effortlessly
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Every enquiry becomes a chance to convert, drive revenue, and save your team hours each week.
+      {/* Features - Zig Zag Layout (UPDATED) */}
+      <section id="features" className="py-24 bg-white overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-20">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900">How We Solve It</h2>
+            <p className="mt-4 text-lg text-slate-600">
+              A complete communication suite that handles the busy work so you can handle the business.
             </p>
-          </motion.div>
+          </div>
+
+          <div className="space-y-24">
+            {features.map((feature, index) => (
+              <div 
+                key={index} 
+                className={`flex flex-col md:flex-row gap-12 lg:gap-20 items-center ${
+                  index % 2 === 1 ? 'md:flex-row-reverse' : ''
+                }`}
+              >
+                {/* Text Side */}
+                <div className="flex-1">
+                  <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">
+                    {feature.title}
+                  </h3>
+                  <p className="text-lg text-slate-600 mb-8 leading-relaxed">
+                    {feature.desc}
+                  </p>
+                  <ul className="space-y-4">
+                    {feature.bullets.map((bullet, i) => (
+                      <li key={i} className="flex items-start gap-3">
+                        <div className="mt-1 w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" />
+                        </div>
+                        <span className="text-slate-700 font-medium">{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Image Side - Fixed sizing and rotation */}
+                <div className="flex-1 w-full flex justify-center">
+                  <div className="relative rounded-2xl border border-slate-200 bg-slate-50 p-2 shadow-xl max-w-lg w-full">
+                    <img 
+                      src={feature.image} 
+                      alt={feature.title} 
+                      className="w-full h-auto rounded-xl shadow-sm object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Industries */}
+      <section id="industries" className="py-24 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+             <h2 className="text-3xl md:text-4xl font-bold text-slate-900">Tailored for Appointment-Based Businesses</h2>
+          </div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            {[
-              {
-                icon: <Zap className="w-6 h-6" />,
-                title: "Intelligent Call & Chat Handling",
-                description: "Natural, human-like AI that answers calls and texts instantly.",
-              },
-              {
-                icon: <Calendar className="w-6 h-6" />,
-                title: "Appointment Scheduler",
-                description: "Books, cancels, reschedules, and confirms automatically.",
-              },
-              {
-                icon: <Phone className="w-6 h-6" />,
-                title: "Multi-Channel Support",
-                description: "Chat, WhatsApp, Voice — all covered 24/7.",
-              },
-              {
-                icon: <Users className="w-6 h-6" />,
-                title: "CRM & Calendar Sync",
-                description: "Connects with your existing tools so schedules stay up-to-date.",
-              },
-              {
-                icon: <CheckCircle2 className="w-6 h-6" />,
-                title: "Professional Brand Experience",
-                description: "Customizable response tones and branding to match your voice.",
-              },
-              {
-                icon: <ArrowRight className="w-6 h-6" />,
-                title: "Smart Routing",
-                description: "Routes complex cases to humans when necessary.",
-              },
-            ].map((feature, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, x: idx % 2 === 0 ? -20 : 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: (idx % 2) * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <Card className="border-border hover:border-primary/50 transition-all">
-                  <CardContent className="p-8">
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">
-                        {feature.icon}
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-heading font-bold mb-2">{feature.title}</h3>
-                        <p className="text-muted-foreground">{feature.description}</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section id="testimonials" className="relative py-20 sm:py-32 bg-gradient-to-br from-blue-50 via-slate-50 to-white overflow-hidden">
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4">
-              Loved by Businesses Like Yours
-            </h2>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                quote: "Our appointment bookings increased, and our team actually has time to focus on clients — while the AI handles routine scheduling.",
-                author: "Sarah Mitchell",
-                role: "Dental Practice Owner",
-              },
-              {
-                quote: "The multi-channel support means we capture every inquiry. No more missed opportunities on WhatsApp or chat.",
-                author: "James Chen",
-                role: "Service Business Manager",
-              },
-              {
-                quote: "Implementation was seamless, and the integration with our CRM happened without a hitch. Highly recommend.",
-                author: "Emma Rodriguez",
-                role: "Clinic Administrator",
-              },
-            ].map((testimonial, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <Card className="border-border h-full">
-                  <CardContent className="p-8">
-                    <p className="text-muted-foreground mb-6 italic">"{testimonial.quote}"</p>
-                    <div className="flex items-center gap-1 mb-4">
-                      {[...Array(5)].map((_, i) => (
-                        <span key={i} className="text-primary">★</span>
-                      ))}
-                    </div>
-                    <p className="font-heading font-semibold text-sm">{testimonial.author}</p>
-                    <p className="text-muted-foreground text-sm">{testimonial.role}</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing Section */}
-      <section id="pricing" className="relative py-20 sm:py-32 bg-gradient-to-br from-white via-blue-50 to-white overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4">
-              Simple, Transparent Pricing
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Choose a plan that fits your business size. Upgrade anytime as you grow.
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {[
-              {
-                name: "Starter",
-                price: "$299",
-                period: "/month",
-                description: "Perfect for small businesses",
-                features: [
-                  "Up to 1,000 calls/month",
-                  "Chat widget",
-                  "Basic analytics",
-                  "Email support",
-                ],
-                highlighted: false,
-              },
-              {
-                name: "Professional",
-                price: "$799",
-                period: "/month",
-                description: "For growing teams",
-                features: [
-                  "Up to 10,000 calls/month",
-                  "All Starter features",
-                  "WhatsApp & SMS integration",
-                  "Priority support",
-                  "Advanced analytics",
-                  "Custom branding",
-                ],
-                highlighted: true,
-              },
-              {
-                name: "Enterprise",
-                price: "Custom",
-                period: "pricing",
-                description: "For large organizations",
-                features: [
-                  "Unlimited calls",
-                  "All Professional features",
-                  "Dedicated account manager",
-                  "Custom integrations",
-                  "SLA guarantee",
-                  "On-premise option",
-                ],
-                highlighted: false,
-              },
-            ].map((plan, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <Card
-                  className={`h-full border-2 transition-all ${
-                    plan.highlighted
-                      ? "border-primary shadow-lg scale-105"
-                      : "border-border hover:border-primary/50"
-                  }`}
-                >
-                  <CardContent className="p-8">
-                    {plan.highlighted && (
-                      <div className="bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full inline-block mb-4">
-                        MOST POPULAR
-                      </div>
-                    )}
-                    <h3 className="text-2xl font-heading font-bold mb-2">
-                      {plan.name}
-                    </h3>
-                    <p className="text-muted-foreground text-sm mb-4">
-                      {plan.description}
-                    </p>
-                    <div className="mb-6">
-                      <span className="text-4xl font-heading font-bold">
-                        {plan.price}
-                      </span>
-                      <span className="text-muted-foreground text-sm">
-                        {plan.period}
-                      </span>
-                    </div>
-                    <Button
-                      size="lg"
-                      className="w-full mb-8 bg-primary hover:bg-primary/90 text-white font-semibold"
-                    >
-                      Get Started
-                    </Button>
-                    <ul className="space-y-3">
-                      {plan.features.map((feature, fidx) => (
-                        <li key={fidx} className="flex items-center gap-2">
-                          <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0" />
-                          <span className="text-sm text-foreground">
-                            {feature}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="relative py-20 sm:py-32 bg-gradient-to-br from-purple-50 via-white to-blue-50 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-6">
-                About AI Receptionist
-              </h2>
-              <p className="text-lg text-muted-foreground mb-4">
-                We're on a mission to revolutionize how businesses handle customer interactions. Founded by a team of AI and customer service experts, AI Receptionist brings the power of advanced language models to your front desk.
-              </p>
-              <p className="text-lg text-muted-foreground mb-6">
-                With over 50,000 businesses using our platform, we've handled millions of conversations across voice, chat, WhatsApp, and web channels. Our AI is trained to understand context, handle complex queries, and convert inquiries into bookings — 24/7.
-              </p>
-              <div className="flex gap-8">
-                <div>
-                  <p className="text-3xl font-heading font-bold text-primary">
-                    50K+
-                  </p>
-                  <p className="text-muted-foreground text-sm">Active Businesses</p>
-                </div>
-                <div>
-                  <p className="text-3xl font-heading font-bold text-primary">
-                    10M+
-                  </p>
-                  <p className="text-muted-foreground text-sm">
-                    Conversations Handled
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              viewport={{ once: true }}
-              className="rounded-2xl overflow-hidden shadow-xl"
-            >
-              <div className="bg-gradient-to-br from-primary/20 to-primary/10 p-12 h-96 flex items-center justify-center">
-                <div className="text-center">
-                  <Users className="w-24 h-24 text-primary/30 mx-auto mb-4" />
-                  <p className="text-muted-foreground">
-                    Building the future of customer engagement
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="relative py-20 sm:py-32 bg-gradient-to-br from-blue-50 via-white to-purple-50 overflow-hidden">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4">
-              Get in Touch
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Questions? Our team is here to help. Reach out and we'll respond within 24 hours.
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            viewport={{ once: true }}
-          >
-            <Card className="border-border">
+            {/* Healthcare Card */}
+            <Card className="overflow-hidden border-0 shadow-lg group hover:shadow-xl transition-shadow">
+              <div className="h-2 bg-blue-500 w-full" />
               <CardContent className="p-8">
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div>
-                    <form className="space-y-4">
-                      <div>
-                        <label className="text-sm font-semibold block mb-2">
-                          Full Name
-                        </label>
-                        <Input
-                          type="text"
-                          placeholder="Your name"
-                          data-testid="input-name"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-sm font-semibold block mb-2">
-                          Email
-                        </label>
-                        <Input
-                          type="email"
-                          placeholder="your@email.com"
-                          data-testid="input-contact-email"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-sm font-semibold block mb-2">
-                          Subject
-                        </label>
-                        <Input
-                          type="text"
-                          placeholder="How can we help?"
-                          data-testid="input-subject"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-sm font-semibold block mb-2">
-                          Message
-                        </label>
-                        <textarea
-                          placeholder="Tell us more..."
-                          rows={4}
-                          className="w-full px-3 py-2 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
-                          data-testid="textarea-message"
-                        />
-                      </div>
-                      <Button
-                        size="lg"
-                        className="w-full bg-primary hover:bg-primary/90 text-white"
-                        data-testid="button-send-message"
-                      >
-                        Send Message
-                      </Button>
-                    </form>
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
+                    <Stethoscope className="w-6 h-6 text-blue-600" />
                   </div>
-                  <div className="space-y-8">
-                    <div>
-                      <h3 className="text-lg font-heading font-bold mb-4 flex items-center gap-2">
-                        <Mail className="w-5 h-5 text-primary" />
-                        Email
-                      </h3>
-                      <p className="text-muted-foreground">
-                        hello@aireceptionist.com
-                      </p>
-                      <p className="text-muted-foreground text-sm">
-                        We'll respond within 24 hours
-                      </p>
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-heading font-bold mb-4 flex items-center gap-2">
-                        <Phone className="w-5 h-5 text-primary" />
-                        Phone
-                      </h3>
-                      <p className="text-muted-foreground">
-                        (555) 123-4567
-                      </p>
-                      <p className="text-muted-foreground text-sm">
-                        Available Monday to Friday, 9AM-5PM EST
-                      </p>
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-heading font-bold mb-4">
-                        Office Hours
-                      </h3>
-                      <p className="text-muted-foreground text-sm space-y-1">
-                        <div>Monday - Friday: 9AM - 5PM EST</div>
-                        <div>Saturday - Sunday: Closed</div>
-                      </p>
-                    </div>
-                  </div>
+                  <h3 className="text-2xl font-bold text-slate-900">Healthcare</h3>
                 </div>
+                <p className="text-slate-600 mb-6">
+                  Perfect for clinics, dentists, and private practices. Handle patient intake, reschedule appointments, and answer pre-visit questions securely.
+                </p>
+                <Link href="/healthcare">
+                  <Button variant="outline" className="group-hover:bg-blue-50 group-hover:text-blue-600 border-slate-200">
+                    Explore Healthcare Solution
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
-          </motion.div>
+
+            {/* Real Estate Card */}
+            <Card className="overflow-hidden border-0 shadow-lg group hover:shadow-xl transition-shadow">
+              <div className="h-2 bg-indigo-500 w-full" />
+              <CardContent className="p-8">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-12 h-12 rounded-lg bg-indigo-100 flex items-center justify-center">
+                    <HomeIcon className="w-6 h-6 text-indigo-600" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-slate-900">Real Estate</h3>
+                </div>
+                <p className="text-slate-600 mb-6">
+                  Never miss a buyer while you're at a showing. Qualify leads instantly, schedule viewings, and keep your pipeline moving 24/7.
+                </p>
+                <Link href="/real-estate">
+                  <Button variant="outline" className="group-hover:bg-indigo-50 group-hover:text-indigo-600 border-slate-200">
+                    Explore Real Estate Solution
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      
+      {/* FAQ Section */}
+      <section id="faq" className="py-24 bg-slate-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+          <div className="grid gap-6">
+            {[
+              { q: "Do I need to change my phone number?", a: "No. You can simply forward calls to your AI assistant's number when you're busy, or port your number if you prefer." },
+              { q: "How does it know my schedule?", a: "We integrate directly with Google Calendar, Outlook, and others. The AI reads your free/busy slots in real-time." },
+              { q: "Can it handle complex medical questions?", a: "The AI is trained on your specific FAQs. For medical advice or complex issues, it is programmed to triage and escalate to a human staff member." },
+            ].map((faq, i) => (
+              <div key={i} className="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+                <h4 className="text-lg font-bold text-slate-900 mb-2">{faq.q}</h4>
+                <p className="text-slate-600">{faq.a}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="relative py-20 sm:py-32 bg-gradient-to-br from-blue-100 via-primary/15 to-purple-100 overflow-hidden">
-        
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4">
-              Ready to Automate Your Front Desk?
-            </h2>
-            <p className="text-lg text-muted-foreground mb-12">
-              Join thousands of businesses using AI Receptionist to capture more leads and save time.
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto mb-8">
-              <Input
-                type="email"
-                placeholder="your@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 h-12 border-border"
-              />
-              <Button className="h-12 px-8 bg-primary hover:bg-primary/90 text-white font-semibold whitespace-nowrap">
-                Start Free Trial
-              </Button>
+      <section className="py-24 bg-white relative">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-blue-600 rounded-3xl p-8 md:p-16 text-center text-white relative overflow-hidden shadow-2xl">
+            {/* Background pattern */}
+            <div className="absolute top-0 left-0 w-full h-full opacity-10">
+              <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <path d="M0 100 C 20 0 50 0 100 100 Z" fill="white" />
+              </svg>
             </div>
-
-            <p className="text-sm text-muted-foreground">
-              No credit card required. 14-day free trial.
-            </p>
-          </motion.div>
+            
+            <div className="relative z-10">
+              <h2 className="text-3xl md:text-5xl font-bold mb-6">Ready to Automate Your Booking?</h2>
+              <p className="text-blue-100 text-lg md:text-xl max-w-2xl mx-auto mb-10">
+                Join the businesses saving 20+ hours a week and increasing booking rates by 40% with AI Receptionist.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                 <div className="relative w-full max-w-md">
+                   <Input 
+                    type="email" 
+                    placeholder="Enter your email" 
+                    className="h-14 pl-6 rounded-full bg-white text-slate-900 border-0 focus-visible:ring-2 focus-visible:ring-blue-300"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                   />
+                   <div className="absolute right-1 top-1">
+                      <a href={DEMO_MAILTO}>
+                        <Button className="h-12 rounded-full px-6 bg-blue-600 text-white hover:bg-blue-700 font-semibold">
+                          Get Demo
+                        </Button>
+                      </a>
+                   </div>
+                 </div>
+              </div>
+              <p className="mt-6 text-sm text-blue-200">No credit card required for demo.</p>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-12 border-t border-border bg-white">
+      <footer className="bg-slate-50 border-t border-slate-200 pt-16 pb-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+            <div className="col-span-2 md:col-span-1">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-8 h-8 rounded bg-blue-600 flex items-center justify-center">
+                  <Bot className="w-4 h-4 text-white" />
+                </div>
+                <span className="font-bold text-lg text-slate-900">AI Receptionist</span>
+              </div>
+              <p className="text-sm text-slate-500 mb-4">
+                The smart communication layer for modern businesses.
+              </p>
+            </div>
+            
             <div>
-              <h4 className="font-heading font-bold mb-4 text-sm">Product</h4>
-              <ul className="space-y-2">
-                <li>
-                  <a href="#" className="text-muted-foreground hover:text-primary text-sm transition-colors">
-                    Features
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-muted-foreground hover:text-primary text-sm transition-colors">
-                    Pricing
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-muted-foreground hover:text-primary text-sm transition-colors">
-                    Integrations
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-muted-foreground hover:text-primary text-sm transition-colors">
-                    Help Center
-                  </a>
-                </li>
+              <h4 className="font-bold text-slate-900 mb-4">Product</h4>
+              <ul className="space-y-2 text-sm text-slate-500">
+                <li><a href="#features" className="hover:text-blue-600">Features</a></li>
+                <li><a href="#pricing" className="hover:text-blue-600">Pricing</a></li>
+                <li><a href={DEMO_MAILTO} className="hover:text-blue-600">Request Demo</a></li>
               </ul>
             </div>
+            
             <div>
-              <h4 className="font-heading font-bold mb-4 text-sm">Company</h4>
-              <ul className="space-y-2">
-                <li>
-                  <a href="#" className="text-muted-foreground hover:text-primary text-sm transition-colors">
-                    About
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-muted-foreground hover:text-primary text-sm transition-colors">
-                    Blog
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-muted-foreground hover:text-primary text-sm transition-colors">
-                    Careers
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-muted-foreground hover:text-primary text-sm transition-colors">
-                    Press
-                  </a>
-                </li>
+              <h4 className="font-bold text-slate-900 mb-4">Industries</h4>
+              <ul className="space-y-2 text-sm text-slate-500">
+                <li><Link href="/healthcare"><a className="hover:text-blue-600">Healthcare</a></Link></li>
+                <li><Link href="/real-estate"><a className="hover:text-blue-600">Real Estate</a></Link></li>
               </ul>
             </div>
+
             <div>
-              <h4 className="font-heading font-bold mb-4 text-sm">Legal</h4>
-              <ul className="space-y-2">
-                <li>
-                  <a href="#" className="text-muted-foreground hover:text-primary text-sm transition-colors">
-                    Privacy
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-muted-foreground hover:text-primary text-sm transition-colors">
-                    Terms
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-muted-foreground hover:text-primary text-sm transition-colors">
-                    Cookies
-                  </a>
-                </li>
+              <h4 className="font-bold text-slate-900 mb-4">Contact</h4>
+              <ul className="space-y-2 text-sm text-slate-500">
+                <li><a href={CONTACT_MAILTO} className="hover:text-blue-600">contact@rulescube.com</a></li>
+                
               </ul>
-            </div>
-            <div>
-              <h4 className="font-heading font-bold mb-4 text-sm">Contact</h4>
-              <p className="text-muted-foreground text-sm mb-2">hello@aireceptionist.com</p>
-              <p className="text-muted-foreground text-sm">(555) 123-4567</p>
             </div>
           </div>
-
-          <div className="border-t border-border pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded bg-primary/10 flex items-center justify-center">
-                <Phone className="w-4 h-4 text-primary" />
-              </div>
-              <p className="font-heading font-semibold text-sm">AI Receptionist</p>
+          
+          <div className="border-t border-slate-200 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-slate-500">
+            <p>© {new Date().getFullYear()} RulesCube. All rights reserved.</p>
+            <div className="flex gap-6 mt-4 md:mt-0">
+              <a href="#" className="hover:text-slate-900">Privacy Policy</a>
+              <a href="#" className="hover:text-slate-900">Terms of Service</a>
             </div>
-            <p className="text-muted-foreground text-sm">
-              © 2024 AI Receptionist. All rights reserved.
-            </p>
           </div>
         </div>
       </footer>

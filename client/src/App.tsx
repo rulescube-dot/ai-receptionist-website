@@ -12,12 +12,16 @@ import { ImpersonationProvider } from "@/context/ImpersonationContext";
 import RequireAuth from "./components/RequireAuth";
 import AdminGuard from "./components/AdminGuard";
 import ChangePasswordPage from "./pages/change-password";
+import Healthcare from "./pages/healthcare";
+import RealEstate from "./pages/real-estate";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
       
+      <Route path="/healthcare" component={Healthcare} />
+      <Route path="/real-estate" component={RealEstate} />
       <Route path="/portal">
         <RequireAuth redirectTo="/portal">
           <Portal />
